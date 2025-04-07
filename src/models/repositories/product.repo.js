@@ -1,6 +1,6 @@
 'use strict'
 
-const { getSelectedFields, getUnselectedFields } = require('../../utils')
+const {  convertToObjectIdMongodb, getUnselectedFields } = require('../../utils')
 const { product, electronic, clothing, furniture } = require('../product.model')
 const { Types } = require('mongoose')
 
@@ -26,8 +26,8 @@ const searchProductsByUser = async ({ keySearch }) => {
 
 const publishProductByShop = async ({ productId, product_shop }) => {
   const foundProduct = await product.findOne({
-    _id: Types.ObjectId.createFromHexString(productId),
-    product_shop: Types.ObjectId.createFromHexString(product_shop),
+    _id: convertToObjectIdMongodb(productId),
+    product_shop: convertToObjectIdMongodb(product_shop),
     isDraft: true,
     isPublished: false,
   })
@@ -43,8 +43,8 @@ const publishProductByShop = async ({ productId, product_shop }) => {
 
 const unpublishProductByShop = async ({ productId, product_shop }) => {
   const foundProduct = await product.findOne({
-    _id: Types.ObjectId.createFromHexString(productId),
-    product_shop: Types.ObjectId.createFromHexString(product_shop),
+    _id: convertToObjectIdMongodb(productId),
+    product_shop: convertToObjectIdMongodb(product_shop),
     isDraft: false,
     isPublished: true,
   })
@@ -62,8 +62,8 @@ const unpublishProductByShop = async ({ productId, product_shop }) => {
 const updateProductById = async ({ productId, product_shop, payload, model, isNew = true }) => {
 
   return await model.findOneAndUpdate({
-    _id: Types.ObjectId.createFromHexString(productId),
-    product_shop: Types.ObjectId.createFromHexString(product_shop),
+    _id: convertToObjectIdMongodb(productId),
+    product_shop: convertToObjectIdMongodb(product_shop),
   }, payload, { new: isNew })
 
 }
@@ -90,7 +90,7 @@ const findAllProducts = async ({ limit, sort, page, filter, select }) => {
 }
 
 const findProductById = async ({ product_id, unselect }) => {
-  return await product.findById(product_id).select(unselect).lean()
+  return await product.findById(product_id).select(getUnselectedFields(unselect)).lean()
 }
 
 const getTypeOfProduct = async ({ productId }) => {

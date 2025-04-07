@@ -1,15 +1,30 @@
 'use strict'
 
 const _ = require('lodash')
+const { Types } = require('mongoose')
 
+/**
+ * Create ObjectId from string
+ * @param {String} id 
+ * @returns ObjectId
+ */
+const convertToObjectIdMongodb = (id) => Types.ObjectId.createFromHexString(id)
+
+
+/**
+ * 
+ * @param {*} param0 
+ * @returns 
+ */
 const getInfoData = ({ fields = [], object = {} }) => {
   return _.pick(object, fields)
 }
 
-const getSelectedFields = (fields = []) => {
-  return Object.fromEntries(fields.map( field => [field, 1]))
-}
-
+/**
+ * Convert arrays of fields that don't need to select when querying
+ * @param {*} fields fields 
+ * @returns Object that contains a pair of key-values corresponded fields that need to be unselected with values equal to 0
+ */
 const getUnselectedFields = (fields = []) => {
   return Object.fromEntries(fields.map( field => [field, 0]))
 }
@@ -26,7 +41,6 @@ const removeUndefinedObject = (obj) => {
 
 const nestedObjectParser = (obj) => {
   const final = {}
-  console.log(`Berfore parser::` ,final)
   Object.keys(obj).forEach( key => {
     if(obj[key] && typeof obj[key] === 'object') {
       // recur 
@@ -40,15 +54,13 @@ const nestedObjectParser = (obj) => {
     }
     
   })
-  console.log(`After parser::`, final)
-  
   return final
 }
 
 module.exports = {
   getInfoData,
-  getSelectedFields,
   getUnselectedFields,
   removeUndefinedObject,
   nestedObjectParser,
+  convertToObjectIdMongodb,
 }

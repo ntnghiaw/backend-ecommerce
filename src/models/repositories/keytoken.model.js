@@ -1,11 +1,12 @@
 'use strict'
 
+const { convertToObjectIdMongodb } = require('../../utils')
 const keyTokenModel = require('../keytoken.model')
 const {Types} = require('mongoose')
 
 
 const findByUserId = async (userId) => {
-  return await keyTokenModel.findOne({ user: Types.ObjectId.createFromHexString(userId) })
+  return await keyTokenModel.findOne({ user: convertToObjectIdMongodb(userId) })
 }
 
 const removeKeyTokenById = async (_id) => {

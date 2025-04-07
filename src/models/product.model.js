@@ -82,6 +82,18 @@ productSchema.pre('save', function (next) {
   next()
 })
 
+productSchema.pre('findOneAndUpdate', function (next) {
+  const update = this.getUpdate()
+  if (update.product_name) {
+    update.product_slug = slugify(update.product_name, {
+      lower: true,
+      locale: 'vi',
+    })
+    this.setUpdate(update) // ensure update is applied
+  }
+  next()
+})
+
 
 // define the product type = clothing
 const clothingSchema = new Schema({
