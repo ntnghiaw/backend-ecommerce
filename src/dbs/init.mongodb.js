@@ -4,7 +4,7 @@ const mongoose = require('mongoose')
 const { db : { host, port, name } } = require('../configs/config.mongodb')
 const connectString = `mongodb://${host}:${port}/${name}`
 
-console.log(`Connect string: ${connectString}`)
+console.log(`Connection string: ${connectString}`)
 // Singleton Pattern < unecessary for this project but good to know>
 
 class Database {
@@ -14,8 +14,8 @@ class Database {
 
   connect(type = 'mongodb') {
     if (1 === 1) {
-      mongoose.set('debug', true)
-      mongoose.set('debug', { color: true })
+      // mongoose.set('debug', true)  
+      // mongoose.set('debug', { color: true })
     }
 
     mongoose

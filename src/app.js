@@ -10,12 +10,32 @@ const app = express()
 app.use(morgan('dev'))
 app.use(helmet())
 app.use(compression())
+app.use(express.json())
 
 // init db
 require('./dbs/init.mongodb')
 
 // init routes
+app.use('/', require('./routes'))
 
-// error handler
+// handle error
+
+app.use((req, res, next) => {
+  const error = new Error('Not Found')
+  error.status = 404
+  next(error)
+})
+
+app.use((error, req, res, next) => {
+    const statusCode = error.status || 500
+    console.log(error.stack)
+    return res.status(statusCode).json({
+      code: statusCode,
+      message: error.message || 'Internal Server Error',
+      status: 'error',
+    })  
+
+})
+
 
 module.exports = app
