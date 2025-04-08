@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken')
 const asyncHandler = require('../helpers/asyncHandler')
 const { HEADER } = require('../constants')
 const { AuthFailureError, NotFoundError } = require('../core/error.response')
-const { findByUserId } = require('../models/repositories/keytoken.model')
+const { findByUserId } = require('../models/repositories/keytoken.repo')
 
 const createTokenPair = (payload, privateKey) => {
   try {

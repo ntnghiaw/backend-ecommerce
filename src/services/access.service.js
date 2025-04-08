@@ -4,6 +4,7 @@ const shopModel = require('../models/shop.model')
 const bcrypt = require('bcrypt')
 const crypto = require('crypto')
 const KeyTokenService = require('./keytoken.service')
+
 const { createTokenPair, verifyJWT } = require('../auth/authUtils')
 const { getInfoData } = require('../utils')
 const { BadRequestError, AuthFailureError, ForbiddenError } = require('../core/error.response')
@@ -11,9 +12,8 @@ const { findByEmail } = require('../models/repositories/shop.repo')
 const {
   removeKeyTokenById,
   removeKeyTokenByUserId,
-  findByRefreshTokenUsed,
-  findByRefreshToken,
-} = require('../models/repositories/keytoken.model')
+
+} = require('../models/repositories/keytoken.repo')
 
 const Roles = {
   ADMIN: '0000',
@@ -27,7 +27,7 @@ class AccessService {
    * Check refresh token used
    */
   static handleRefreshToken = async ({ keyStore, user, refreshToken }) => {
-    const {userId, email} = user
+    const { userId, email } = user
 
     if (keyStore.usedRefreshTokens.includes(refreshToken)) {
       // delete keyToken
@@ -62,7 +62,6 @@ class AccessService {
       user,
       tokens: newTokens,
     }
- 
   }
 
   static logout = async (keyStore) => {

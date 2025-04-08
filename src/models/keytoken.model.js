@@ -1,4 +1,5 @@
 'use strict'
+'use strict'
 
 const { Schema, model } = require('mongoose') // Erase if already required
 
@@ -28,7 +29,7 @@ const keyTokenSchema = new Schema(
     refreshToken: {
       type: String,
       required: true,
-    }
+    },
   },
   {
     timestamps: true,

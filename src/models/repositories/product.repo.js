@@ -108,6 +108,13 @@ const queryProduct = async ({ query, limit, skip }) => {
     .lean()
 }
 
+const checkProductBelongToShop = async ({ shopId, productId }) => {
+  return await product.findOne({
+    _id: convertToObjectIdMongodb(productId),
+    product_shop: convertToObjectIdMongodb(shopId),
+  })
+}
+
 module.exports = {
   findAllDraftsForShop,
   findAllPublishForShop,
@@ -118,4 +125,5 @@ module.exports = {
   findProductById,
   updateProductById,
   getTypeOfProduct,
+  checkProductBelongToShop,
 }

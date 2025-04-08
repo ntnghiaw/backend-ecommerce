@@ -1,7 +1,7 @@
 'use strict'
 
 const { convertToObjectIdMongodb } = require('../../utils')
-const keyTokenModel = require('../keytoken.model')
+const keyTokenModel = require('./keytoken.repo')
 const {Types} = require('mongoose')
 
 
